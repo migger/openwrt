@@ -438,7 +438,8 @@ static const struct rtl8367b_initval rtl8367b_initvals[] = {
 	{0x2206, 0x0405}, {0x220F, 0x0000}, {0x221F, 0x0000}, {0x133E, 0x000E},
 	{0x133F, 0x0010}, {0x13EB, 0x11BB}, {0x207F, 0x0002}, {0x2073, 0x1D22},
 	{0x207F, 0x0000}, {0x133F, 0x0030}, {0x133E, 0x000E}, {0x2200, 0x1340},
-	{0x133E, 0x000E}, {0x133F, 0x0010},
+	{0x133E, 0x000E}, {0x133F, 0x0010}, {0x1303, 0x0778}, {0x1304, 0x7777},
+	{0x13E2, 0x01FE}
 };
 
 static const struct rtl8367b_initval rtl8367c_initvals[] = {
@@ -957,7 +958,10 @@ static int rtl8367b_setup(struct rtl8366_smi *smi)
 	/* set maximum packet length to 1536 bytes */
 	REG_RMW(smi, RTL8367B_SWC0_REG, RTL8367B_SWC0_MAX_LENGTH_MASK,
 		RTL8367B_SWC0_MAX_LENGTH_1536);
-
+    
+	/* enable all PHY (if disabled by bootstrap) */
+	REG_RMW(smi, RTL8367B_REG_PHY_AD, BIT(RTL8367B_PDN_PHY_OFFSET), 0);
+	
 	/*
 	 * discard VLAN tagged packets if the port is not a member of
 	 * the VLAN with which the packets is associated.
