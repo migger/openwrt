@@ -1295,6 +1295,16 @@ static int rtl8367b_enable_port(struct rtl8366_smi *smi, int port, int enable)
 
 	REG_WR(smi, RTL8367B_PORT_ISOLATION_REG(port),
 	       (enable) ? RTL8367B_PORTS_ALL : 0);
+	
+	/* Power up/down port */
+	err = rtl8367b_port_phy_reg_get(smi, port, 0, &data);
+	if (err == 0) {
+		if (enable)
+			data &= ~(1U << 11);
+		else
+			data |= (1U << 11);
+		rtl8367b_port_phy_reg_set(smi, port, 0, data);
+	}
 
 	return 0;
 }
