@@ -1511,7 +1511,7 @@ static struct switch_attr rtl8367b_globals[] = {
 			       "(0:1522, 1:1536, 2:1552, 3:16000)",
 		.set = rtl8367b_sw_set_max_length,
 		.get = rtl8367b_sw_get_max_length,
-		.max = 3,C
+		.max = 3,
 	}, {
 		.type = SWITCH_TYPE_INT,
 		.name = "led",
